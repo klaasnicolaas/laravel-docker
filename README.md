@@ -47,6 +47,7 @@ ln -s laravel/.env .env
     - `DB_DATABASE`
     - `DB_USERNAME`
     - `DB_PASSWORD`
+    - `DB_ROOT_PASSWORD`
 
 4. Install the composer packages and generate a key
 
