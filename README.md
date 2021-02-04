@@ -32,19 +32,14 @@ This is a template repository for running Laravel within a Docker environment.
 How to start with this Laravel Docker template:
 
 1. Clone the repository
-2. Create a `.env` file
+2. Create a `.env` file and make an symbolik link
 
 ```bash
-cd laravel && cp .env.example .env && cd ..
-```
-
-3. Make a symbolik link with the `.env` file from Laravel
-
-```bash
+cp ./laravel/.env.example .env
 ln -s laravel/.env .env
 ```
 
-4. Inside the `.env` file give the following variables a value
+3. Inside the `.env` file give the following variables a value
     - `APP_NAME`
     - `DOCKER_IMAGE_NAME`
     - `DB_HOST`
@@ -53,16 +48,10 @@ ln -s laravel/.env .env
     - `DB_USERNAME`
     - `DB_PASSWORD`
 
-5. Install the composer packages
+4. Install the composer packages and generate a key
 
 ```bash
-cd laravel && composer install
-```
-
-6. Generate a key for Laravel
-
-```bash
-php artisan key:generate && cd ..
+cd laravel && composer install && php artisan key:generate && cd ..
 ```
 
 ## Run
