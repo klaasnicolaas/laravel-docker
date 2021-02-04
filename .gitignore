@@ -1,0 +1,5 @@
+# Files
+.env
+
+# Folders
+mysql/data
