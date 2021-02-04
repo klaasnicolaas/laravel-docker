@@ -1,6 +1,7 @@
 # Proposed Changes
-
-> (Describe the changes and rationale behind them)
+<!--
+Describe the changes that your pull request will make
+-->
 
 ## Related Issues
 

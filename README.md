@@ -3,7 +3,7 @@
 *** github_username, repo_name
 -->
 
-# 🚀 REPOSITORY NAME
+# 🐳 Laravel docker prod/dev setup
 <!-- PROJECT SHIELDS -->
 ![Project Maintenance][maintenance-shield]
 [![License][license-shield]](LICENSE.md)
@@ -20,6 +20,53 @@
 
 ## About
 > Information about the project
+
+This is a template repository for running Laravel within a Docker environment.
+
+## Requirements
+
+- Docker (also docker-compose)
+- Composer
+## Get started
+
+How to start with this Laravel Docker template:
+
+1. Clone the repository
+2. Create a `.env` file and make an symbolik link
+
+```bash
+cp ./laravel/.env.example .env
+ln -s laravel/.env .env
+```
+
+3. Inside the `.env` file give the following variables a value
+    - `APP_NAME`
+    - `DOCKER_IMAGE_NAME`
+    - `DB_HOST`
+    - `DB_PORT`
+    - `DB_DATABASE`
+    - `DB_USERNAME`
+    - `DB_PASSWORD`
+
+4. Install the composer packages and generate a key
+
+```bash
+cd laravel && composer install && php artisan key:generate && cd ..
+```
+
+## Run
+
+When you have done the getting started part, it's time to start the docker containers.
+
+```bash
+docker-compose up -d --build
+```
+
+After this only do a Laravel migration to the database and you are ready!
+
+```bash
+cd laravel && php artisan migrate
+```
 
 ## Contributing
 
@@ -53,15 +100,15 @@ SOFTWARE.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2021.svg?style=for-the-badge
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[commits-shield]: https://img.shields.io/github/commit-activity/y/github_username/repo_name.svg?style=for-the-badge
-[commits]: https://github.com/github_username/repo_name/commits/master
-[last-commit-shield]: https://img.shields.io/github/last-commit/github_username/repo_name.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/klaasnicolaas/laravel-docker.svg?style=for-the-badge
+[contributors-url]: https://github.com/klaasnicolaas/laravel-docker/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/klaasnicolaas/laravel-docker.svg?style=for-the-badge
+[forks-url]: https://github.com/klaasnicolaas/laravel-docker/network/members
+[stars-shield]: https://img.shields.io/github/stars/klaasnicolaas/laravel-docker.svg?style=for-the-badge
+[stars-url]: https://github.com/klaasnicolaas/laravel-docker/stargazers
+[issues-shield]: https://img.shields.io/github/issues/klaasnicolaas/laravel-docker.svg?style=for-the-badge
+[issues-url]: https://github.com/klaasnicolaas/laravel-docker/issues
+[license-shield]: https://img.shields.io/github/license/klaasnicolaas/laravel-docker.svg?style=for-the-badge
+[commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/laravel-docker.svg?style=for-the-badge
+[commits]: https://github.com/klaasnicolaas/laravel-docker/commits/master
+[last-commit-shield]: https://img.shields.io/github/last-commit/klaasnicolaas/laravel-docker.svg?style=for-the-badge

@@ -6,7 +6,7 @@ services:
     build:
       context: ./laravel
       dockerfile: Dockerfile
-    image: docker-laravel:latest
+    image: ${DOCKER_IMAGE_NAME}
     container_name: ${APP_NAME}_app
     restart: unless-stopped
     tty: true
