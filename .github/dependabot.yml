@@ -6,3 +6,18 @@ updates:
     schedule:
       interval: daily
       time: "04:00"
+  - package-ecosystem: "docker"
+    directory: "/laravel"
+    schedule:
+      interval: daily
+      time: "04:00"
+  - package-ecosystem: composer
+    directory: "/laravel"
+    schedule:
+      interval: daily
+      time: "04:00"
+  - package-ecosystem: npm
+    directory: "/laravel"
+    schedule:
+      interval: daily
+      time: "04:00"
