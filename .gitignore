@@ -2,4 +2,4 @@
 .env
 
 # Folders
-mysql/data
+mariadb/data
