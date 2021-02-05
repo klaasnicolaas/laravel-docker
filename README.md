@@ -35,7 +35,7 @@ How to start with this Laravel Docker template:
 2. Create a `.env` file and make an symbolik link
 
 ```bash
-cp ./laravel/.env.example .env
+cp ./laravel/.env.example ./laravel/.env
 ln -s laravel/.env .env
 ```
 
