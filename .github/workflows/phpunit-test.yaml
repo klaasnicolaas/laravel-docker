@@ -10,6 +10,8 @@ jobs:
   phpunit:
     name: 🧹 Laravel PHPUnit (${{ matrix.php-versions }} on ${{ matrix.operating-system }})
     runs-on: ${{ matrix.operating-system }}
+    env:
+      FOLDER: laravel
     strategy:
       fail-fast: false
       matrix:
@@ -30,25 +32,31 @@ jobs:
 
       - name: Get composer cache directory
         id: composer-cache
+        working-directory: env.FOLDER
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache composer dependencies
         uses: actions/cache@v2.1.4
+        working-directory: env.FOLDER
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
+        working-directory: env.FOLDER
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: Prepare the application
+        working-directory: env.FOLDER
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
 
       - name: Clear Config
+        working-directory: env.FOLDER
         run: php artisan config:clear
 
       - name: Test with PHPunit
+        working-directory: env.FOLDER
         run: vendor/bin/phpunit
