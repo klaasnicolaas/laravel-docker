@@ -1,4 +1,3 @@
----
 version: 2
 updates:
   - package-ecosystem: "github-actions"
@@ -11,12 +10,12 @@ updates:
     schedule:
       interval: daily
       time: "04:00"
-  - package-ecosystem: composer
+  - package-ecosystem: "composer"
     directory: "/laravel"
     schedule:
       interval: daily
       time: "04:00"
-  - package-ecosystem: npm
+  - package-ecosystem: "npm"
     directory: "/laravel"
     schedule:
       interval: daily
