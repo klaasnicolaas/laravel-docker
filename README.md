@@ -25,8 +25,10 @@ This is a template repository for running Laravel within a Docker environment.
 
 ## Requirements
 
-- Docker (also docker-compose)
-- Composer
+- [Docker](https://www.docker.com) (and docker-compose)
+- [Composer](https://getcomposer.org)
+- [Nginx proxy manager](https://nginxproxymanager.com) (when you want to run multiple instances on 1 server)
+
 ## Get started
 
 How to start with this Laravel Docker template:
@@ -43,13 +45,17 @@ ln -s laravel/.env .env
     - `APP_NAME`
     - `DOCKER_IMAGE_NAME`
     - `DB_HOST`
-    - `DB_PORT`
     - `DB_DATABASE`
     - `DB_USERNAME`
     - `DB_PASSWORD`
     - `DB_ROOT_PASSWORD`
 
-4. Install the composer packages and generate a key
+4. Change the port numbers according to your situation
+    - `DB_PORT`
+    - `HOST_HTTP_PORT`
+    - `HOST_HTTPS_PORT`
+
+5. Install the composer packages and generate a key
 
 ```bash
 cd laravel && composer install && php artisan key:generate && cd ..
