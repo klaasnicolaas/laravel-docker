@@ -16,10 +16,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 
-> Oneliner about the project
-
 ## About
-> Information about the project
 
 This is a template repository for running Laravel within a Docker environment.
 
@@ -54,6 +51,8 @@ ln -s laravel/.env .env
     - `DB_PORT`
     - `HOST_HTTP_PORT`
     - `HOST_HTTPS_PORT`
+
+> NOTE: if you are going to use your Laravel environment in combination with a domain name and SSL, change the `APP_ENV` to **production**.
 
 5. Install the composer packages and generate a key
 
