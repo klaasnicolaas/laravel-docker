@@ -28,6 +28,15 @@ This is a template repository for running Laravel within a Docker environment.
 
 ## Get started
 
+You can start developing in 2 ways:
+### Devcontainers
+
+1. Clone the repository
+2. Reopen in container
+3. When the container build is finished: `bash init.sh`
+
+### Docker
+
 How to start with this Laravel Docker template:
 
 1. Clone the repository
