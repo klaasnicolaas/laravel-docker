@@ -1,0 +1,34 @@
+version: "3"
+
+volumes:
+  db-store:
+  php-fpm-socket:
+
+services:
+  app:
+    build: ./docker/php
+    volumes:
+      - php-fpm-socket:/var/run/php-fpm
+      - ../:/workspace:cached
+    environment:
+      DB_HOST: db
+  db:
+    image: mysql:8
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/my.cnf
+      - db-store:/var/lib/mysql
+    # Uncomment to allow access to mariadb from external tools
+    # ports:
+    #   - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: laravel
+  web:
+    image: nginx:alpine
+    ports:
+      - 8000:80
+    working_dir: /workspace
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+      - php-fpm-socket:/var/run/php-fpm
+      - ../:/workspace:cached

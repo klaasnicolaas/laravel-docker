@@ -1,0 +1,23 @@
+{
+    "name": "Laravel Devcontainer",
+    "dockerComposeFile": ["docker-compose.yml"],
+    "workspaceFolder": "/workspace",
+    "service": "app",
+    "extensions": [
+        "bmewburn.vscode-intelephense-client",
+		"EditorConfig.EditorConfig",
+        "oderwat.indent-rainbow",
+        "2gua.rainbow-brackets",
+        "ryannaddy.laravel-artisan",
+        "onecentlin.laravel-blade",
+        "eamodio.gitlens"
+	],
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [8000],
+
+    // Use 'postCreateCommand' to run commands after the container is created.
+    "postCreateCommand": "",
+
+    // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+    "remoteUser": "vscode"
+}
