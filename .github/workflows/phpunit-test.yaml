@@ -19,7 +19,7 @@ jobs:
         php-versions: [ '7.4', '8.0']
     steps:
       - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@2.11.0
+        uses: shivammathur/setup-php@2.12.0
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, bcmath
