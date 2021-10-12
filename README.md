@@ -20,15 +20,19 @@
 
 This is a template repository for running Laravel within a Docker environment.
 
+## Development - Get started
+
+<details>
+  <summary>Click to expand!</summary>
+
 ## Requirements
 
 - [Docker](https://www.docker.com) (and docker-compose)
 - [Composer](https://getcomposer.org)
 - [Nginx proxy manager](https://nginxproxymanager.com) (when you want to run multiple instances on 1 server)
 
-## Get started
-
 You can start developing in 2 ways:
+
 ### Devcontainers
 
 1. Clone the repository
@@ -82,6 +86,7 @@ After this only do a Laravel migration to the database and you are ready!
 ```bash
 cd laravel && php artisan migrate
 ```
+</details>
 
 ## Contributing
 
