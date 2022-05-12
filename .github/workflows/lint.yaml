@@ -1,0 +1,20 @@
+---
+name: Lint
+
+on:
+  - push
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.18.1
+        with:
+          php-version: '8.0'
+          tools: phplint
+      - name: Check syntax
+        run: phplint ./laravel
