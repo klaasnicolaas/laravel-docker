@@ -1,4 +1,6 @@
+---
 name: Laravel PHPunit test
+
 on:
   push:
     branches:
@@ -8,8 +10,23 @@ on:
 
 jobs:
   phpunit:
-    name: 🧹 Laravel PHPUnit (${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+    name: "🧹 Laravel PHPUnit (PHP: ${{ matrix.php-versions }} - Laravel: ${{ matrix.laravel }} - ${{ matrix.operating-system}})"
     runs-on: ${{ matrix.operating-system }}
+    # Service container Mysql
+    services:
+      mysql:
+        # Label used to access the service container
+        image: mysql:latest
+        env:
+          MYSQL_USER: laravel_user
+          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: db_test_laravel
+        ## map the "external" 33306 port with the "internal" 3306
+        ports:
+          - 33306:3306
+        # Set health checks to wait until mysql database has started (it takes some seconds to start)
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=3
     env:
       FOLDER: ./laravel
     strategy:
@@ -17,18 +34,46 @@ jobs:
       matrix:
         operating-system: [ ubuntu-latest ]
         php-versions: ['8.0', '8.1']
+
+        laravel: [ '8.*', '9.*' ]
+        include:
+          - laravel: 9.*
+            testbench: 7.*
+          - laravel: 8.*
+            testbench: 6.*
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v3
+        id: node_modules-cache
+        with:
+          path: "${{env.FOLDER}}/node_modules"
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install NPM packages
+        working-directory: ${{env.FOLDER}}
+        if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: ${{env.FOLDER}}
+        run: npm run development
+
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@2.18.1
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, bcmath
           coverage: pcov
-
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Get composer cache directory
         id: composer-cache
@@ -37,25 +82,61 @@ jobs:
 
       - name: Cache composer dependencies
         uses: actions/cache@v3
+        id: actions-cache
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install Composer dependencies
-        working-directory: ${{env.FOLDER}}
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Cache PHP dependencies
+        uses: actions/cache@v3
+        id: vendor-cache
+        with:
+          path: "${{env.FOLDER}}/vendor"
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
 
-      - name: Prepare the application
+      - name: Copy ENV Laravel Configuration for CI
         working-directory: ${{env.FOLDER}}
         run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
-          php artisan key:generate
-
-      - name: Clear Config
+          php -r "file_exists('.env') || copy('.env.ci', '.env');"
+      - name: Install Laravel Dependencies
         working-directory: ${{env.FOLDER}}
-        run: php artisan config:clear
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Test with PHPunit
+      - name: Show files in folder
         working-directory: ${{env.FOLDER}}
-        run: vendor/bin/phpunit
+        run: ls -lao
+
+      - name: Generate key
+        working-directory: ${{env.FOLDER}}
+        run: php artisan key:generate
+
+      - name: Directory Permissions
+        working-directory: ${{env.FOLDER}}
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Run Migrations
+        working-directory: ${{env.FOLDER}}
+        # Set environment
+        env:
+          DB_CONNECTION: mysql_testing
+          DB_DATABASE: db_test_laravel
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DB_USER: laravel_user
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: php artisan migrate
+
+      - name: PHP Version
+        run: php --version
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        working-directory: ${{env.FOLDER}}
+        # Set environment
+        env:
+          DB_CONNECTION: mysql_testing
+          DB_DATABASE: db_test_laravel
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DB_USER: laravel_user
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: vendor/bin/phpunit --testdox
