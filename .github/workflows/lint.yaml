@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup PHP
-        uses: shivammathur/setup-php@2.19.0
+        uses: shivammathur/setup-php@2.19.1
         with:
           php-version: '8.0'
           tools: phplint
