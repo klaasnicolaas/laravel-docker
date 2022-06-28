@@ -1,9 +1,12 @@
-version: '3'
+version: "3"
 services:
 
   #PHP Service
   app:
     build:
+      args:
+        user: klaas
+        uid: 1001
       context: ./laravel
       dockerfile: Dockerfile
     image: ${DOCKER_IMAGE_NAME}
@@ -24,8 +27,8 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - ${HOST_HTTP_PORT}:80
-      - ${HOST_HTTPS_PORT}:443
+      - ${APP_HTTP_PORT:-80}:80
+      - ${APP_HTTPS_PORT:-443}:443
     volumes:
       - ./laravel:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
@@ -38,12 +41,14 @@ services:
     container_name: ${APP_NAME}_db
     restart: always
     ports:
-      - ${DB_PORT}:3306
+      - ${DB_PORT:-3306}:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
     volumes:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/conf/my.cnf:/etc/mysql/my.cnf

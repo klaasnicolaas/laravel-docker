@@ -37,6 +37,10 @@ RUN npm install
 ####################
 FROM php:8-fpm
 
+# Arguments defined in docker-compose.yml
+ARG user
+ARG uid
+
 # Set working directory
 WORKDIR /var/www
 
@@ -57,7 +61,6 @@ RUN apt-get update && apt-get install -y \
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
 # Install / configure GD
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd
@@ -73,10 +76,15 @@ COPY --from=backend /app /var/www
 COPY --from=frontend /app/node_modules /var/www/node_modules
 
 # Copy existing application directory permissions
-COPY --chown=1001:1001 . /var/www
+# COPY --chown=1001:1001 . /var/www
+
+# Create system user to run Composer and Artisan Commands
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
 
 # Change current user
-USER 1001
+USER $user
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
