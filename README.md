@@ -67,10 +67,10 @@ ln -s laravel/.env .env
 
 > NOTE: if you are going to use your Laravel environment in combination with a domain name and SSL, change the `APP_ENV` to **production**.
 
-5. Install the composer packages and generate a key
+5. Install the composer packages, generate a key and add an empty `database.sqlite` test file
 
 ```bash
-cd laravel && composer install && php artisan key:generate && cd ..
+cd laravel && composer install && php artisan key:generate && touch database.sqlite && cd ..
 ```
 
 ## Run
@@ -85,6 +85,12 @@ After this only do a Laravel migration to the database and you are ready!
 
 ```bash
 cd laravel && php artisan migrate
+```
+
+Also migrate the testing database if you want to use it:
+
+```bash
+php artisan migrate:fresh --env=testing
 ```
 </details>
 
