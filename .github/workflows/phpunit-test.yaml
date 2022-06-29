@@ -100,12 +100,6 @@ jobs:
         run: |
           php -r "file_exists('.env') || copy('.env.testing', '.env');"
 
-      - name: Generate key
-        working-directory: ${{env.FOLDER}}
-        run: |
-          php artisan key:generate
-          php artisan config:clear
-
       - name: Install Laravel Dependencies
         working-directory: ${{env.FOLDER}}
         if: steps.vendor-cache.outputs.cache-hit != 'true'
@@ -114,6 +108,12 @@ jobs:
       - name: Show files in folder
         working-directory: ${{env.FOLDER}}
         run: ls -lao
+
+      - name: Generate key
+        working-directory: ${{env.FOLDER}}
+        run: |
+          php artisan key:generate
+          php artisan config:clear
 
       - name: Directory Permissions
         working-directory: ${{env.FOLDER}}
