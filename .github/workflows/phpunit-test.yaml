@@ -110,7 +110,9 @@ jobs:
 
       - name: Generate key
         working-directory: ${{env.FOLDER}}
-        run: php artisan key:generate
+        run: |
+          php artisan key:generate
+          php artisan config:cache
 
       - name: Directory Permissions
         working-directory: ${{env.FOLDER}}
