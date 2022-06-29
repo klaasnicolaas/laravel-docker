@@ -62,8 +62,8 @@ ln -s laravel/.env .env
 
 4. Change the port numbers according to your situation
     - `DB_PORT`
-    - `HOST_HTTP_PORT`
-    - `HOST_HTTPS_PORT`
+    - `APP_HTTP_PORT`
+    - `APP_HTTPS_PORT`
 
 > NOTE: if you are going to use your Laravel environment in combination with a domain name and SSL, change the `APP_ENV` to **production**.
 

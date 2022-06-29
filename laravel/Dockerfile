@@ -35,7 +35,7 @@ RUN npm install
 ####################
 # Build the image
 ####################
-FROM php:8-fpm
+FROM php:8-fpm-buster
 
 # Arguments defined in docker-compose.yml
 ARG user

@@ -5,8 +5,8 @@ services:
   app:
     build:
       args:
-        user: klaas
-        uid: 1001
+        user: user
+        uid: 1000
       context: ./laravel
       dockerfile: Dockerfile
     image: ${DOCKER_IMAGE_NAME}
