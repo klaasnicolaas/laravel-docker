@@ -86,6 +86,12 @@ After this only do a Laravel migration to the database and you are ready!
 ```bash
 cd laravel && php artisan migrate
 ```
+
+Also migrate the testing database if you want to use it:
+
+```bash
+php artisan migrate:fresh --env=testing
+```
 </details>
 
 ## Contributing
