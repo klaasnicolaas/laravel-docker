@@ -102,7 +102,9 @@ jobs:
 
       - name: Generate key
         working-directory: ${{env.FOLDER}}
-        run: php artisan key:generate
+        run: |
+          php artisan key:generate
+          php artisan config:clear
 
       - name: Install Laravel Dependencies
         working-directory: ${{env.FOLDER}}
