@@ -30,7 +30,7 @@ COPY package.json package-lock.json webpack.mix.js /app/
 WORKDIR /app
 
 RUN npm install
-# RUN npm run production
+# RUN npm run build
 
 ####################
 # Build the image
