@@ -88,12 +88,12 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Cache PHP dependencies
-        uses: actions/cache@v3
-        id: vendor-cache
-        with:
-          path: "${{env.FOLDER}}/vendor"
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
+      # - name: Cache PHP dependencies
+      #   uses: actions/cache@v3
+      #   id: vendor-cache
+      #   with:
+      #     path: "${{env.FOLDER}}/vendor"
+      #     key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
 
       - name: Copy ENV Laravel Configuration for CI
         working-directory: ${{env.FOLDER}}
