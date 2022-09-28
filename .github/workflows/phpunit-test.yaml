@@ -29,12 +29,12 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=3
     env:
       FOLDER: ./laravel
+    continue-on-error: ${{ matrix.php-versions == '8.2' }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         operating-system: [ ubuntu-latest ]
         php-versions: ['8.0', '8.1', '8.2']
-
         laravel: [ '8.*', '9.*' ]
         include:
           - laravel: 9.*
