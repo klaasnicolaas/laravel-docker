@@ -52,6 +52,11 @@ jobs:
         with:
           node-version: '16.x'
 
+      - name: Show PHP and NPM version
+        run: |
+          npm --version
+          php --version
+
       - name: Cache node_modules directory
         uses: actions/cache@v3
         id: node_modules-cache
@@ -125,13 +130,10 @@ jobs:
         env:
           DB_CONNECTION: mysql
           DB_DATABASE: db_test_laravel
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
           DB_USER: laravel_user
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: php artisan migrate
-
-      - name: PHP Version
-        run: php --version
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         working-directory: ${{env.FOLDER}}
@@ -139,7 +141,7 @@ jobs:
         env:
           DB_CONNECTION: mysql
           DB_DATABASE: db_test_laravel
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
           DB_USER: laravel_user
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: vendor/bin/phpunit --testdox
