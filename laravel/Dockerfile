@@ -26,7 +26,7 @@ FROM node as frontend
 
 RUN mkdir -p /app/public
 
-COPY package.json package-lock.json webpack.mix.js /app/
+COPY package.json package-lock.json vite.config.js /app/
 WORKDIR /app
 
 RUN npm install
