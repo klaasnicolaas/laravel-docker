@@ -50,27 +50,25 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
-    nodejs \
-    libmagickwand-dev  \
     default-mysql-client \
     iputils-ping \
     libonig-dev \
-    libpng-dev \
-    libjpeg-dev
+    libwebp-dev \
+    libzip-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev libxpm-dev \
+    libfreetype6-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install / configure GD
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd
-
-# Install & enable Imagick:
-RUN pecl install imagick && \
-    docker-php-ext-enable imagick
+# Setup GD library
+RUN docker-php-ext-configure gd \
+    --with-jpeg \
+    --with-freetype
 
 # Install extensions
-RUN docker-php-ext-install mbstring pdo pdo_mysql
+RUN docker-php-ext-install mbstring pdo pdo_mysql gd pcntl zip
 
 COPY --from=backend /app /var/www
 COPY --from=frontend /app/node_modules /var/www/node_modules
