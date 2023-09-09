@@ -68,7 +68,7 @@ RUN docker-php-ext-configure gd \
     --with-freetype
 
 # Install extensions
-RUN docker-php-ext-install mbstring pdo pdo_mysql gd pcntl zip
+RUN docker-php-ext-install mbstring pdo pdo_mysql gd pcntl zip intl
 
 COPY --from=backend /app /var/www
 COPY --from=frontend /app/node_modules /var/www/node_modules
