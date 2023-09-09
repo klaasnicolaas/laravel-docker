@@ -53,6 +53,7 @@ RUN apt-get update && apt-get install -y \
     default-mysql-client \
     iputils-ping \
     libonig-dev \
+    libicu-dev \
     libwebp-dev \
     libzip-dev \
     libjpeg62-turbo-dev \
@@ -62,10 +63,11 @@ RUN apt-get update && apt-get install -y \
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Setup GD library
+# Setup PHP extensions
 RUN docker-php-ext-configure gd \
     --with-jpeg \
     --with-freetype
+RUN docker-php-ext-configure intl
 
 # Install extensions
 RUN docker-php-ext-install mbstring pdo pdo_mysql gd pcntl zip intl
