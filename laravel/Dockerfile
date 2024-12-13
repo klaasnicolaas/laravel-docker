@@ -1,7 +1,7 @@
 #######################
 # Build backend source
 #######################
-FROM composer:2.8.3 as backend
+FROM composer:2.8.4 as backend
 WORKDIR /app
 
 # Copy composer.lock and composer.json
